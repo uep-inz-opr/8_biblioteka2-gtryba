@@ -54,32 +54,27 @@ class Czytelnik:
 
 biblioteka = Biblioteka(25)
 n = int(input())
-lista_akcji = [input().strip(' ') for akcja in range(n)]
-usuwanie = []
+lista_akcji = [eval(input().strip()) for akcja in range(n)]
 
-for x in lista_akcji:
-        usun_nawias = x.replace("(", "")
-        usun_nawias2 = usun_nawias.replace(")", "")
-        usun_cudzyslow = usun_nawias2.replace("\"", "")
-        usuwanie = usun_cudzyslow.split(", ")
-        if usuwanie[0].strip() == "dodaj":
-            ksiazka = Ksiazka(tytul=usuwanie[1].strip(), autor=usuwanie[2].strip(), rok=usuwanie[3].strip())
+for akcja in lista_akcji:
+        if akcja[0].strip() == "dodaj":
+            ksiazka = Ksiazka(tytul=akcja[1].strip(), autor=akcja[2].strip(), rok=akcja[3])
             print(biblioteka.dodaj_egzemplarz_ksiazki(ksiazka))
-        if usuwanie[0].strip() == "wypozycz":
+        if akcja[0].strip() == "wypozycz":
             jest_czytelnik = False
-            tytul = usuwanie[2].strip()
+            tytul = akcja[2].strip()
             for czytelnik in biblioteka.lista_czytelnikow:
-                if czytelnik.nazwisko == usuwanie[1].strip():
+                if czytelnik.nazwisko == akcja[1].strip():
                     jest_czytelnik = True
                     print(biblioteka.wypozycz(czytelnik, tytul))
                     break
             if not jest_czytelnik:
-                nowy = Czytelnik(usuwanie[1].strip(), [])
+                nowy = Czytelnik(akcja[1].strip(), [])
                 biblioteka.lista_czytelnikow.append(nowy)
                 print(biblioteka.wypozycz(nowy, tytul))
-        if usuwanie[0].strip() == "oddaj":
-            nazwisko = usuwanie[1].strip()
-            tytul = usuwanie[2].strip()
+        if akcja[0].strip() == "oddaj":
+            nazwisko = akcja[1].strip()
+            tytul = akcja[2].strip()
             print(biblioteka.oddaj(nazwisko, tytul))
 
     
